@@ -164,7 +164,7 @@ static SVProgressHUD *sharedView = nil;
     if ((self = [super initWithFrame:frame])) {
 		self.userInteractionEnabled = NO;
         self.backgroundColor = [UIColor clearColor];
-		self.alpha = 0;
+		self.alpha = 1.0;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     }
 	
@@ -279,19 +279,19 @@ static SVProgressHUD *sharedView = nil;
     
     [self positionHUD:nil];
     
-	if(self.alpha != 1) {
-        [self registerNotifications];
-		self.hudView.transform = CGAffineTransformScale(self.hudView.transform, 1.3, 1.3);
-		
-		[UIView animateWithDuration:0.15
-							  delay:0
-							options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationCurveEaseOut | UIViewAnimationOptionBeginFromCurrentState
-						 animations:^{	
-							 self.hudView.transform = CGAffineTransformScale(self.hudView.transform, 1/1.3, 1/1.3);
-                             self.alpha = 1;
-						 }
-						 completion:NULL];
-	}
+//	if(self.alpha != 1) {
+//        [self registerNotifications];
+//		self.hudView.transform = CGAffineTransformScale(self.hudView.transform, 1.3, 1.3);
+//		
+//		[UIView animateWithDuration:0.15
+//							  delay:0
+//							options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationCurveEaseOut | UIViewAnimationOptionBeginFromCurrentState
+//						 animations:^{	
+//							 self.hudView.transform = CGAffineTransformScale(self.hudView.transform, 1/1.3, 1/1.3);
+//                             self.alpha = 1;
+//						 }
+//						 completion:NULL];
+//	}
     
     [self setNeedsDisplay];
 }
@@ -384,12 +384,12 @@ static SVProgressHUD *sharedView = nil;
     } 
     
     if(notification) {
-        [UIView animateWithDuration:animationDuration 
-                              delay:0 
-                            options:UIViewAnimationOptionAllowUserInteraction 
-                         animations:^{
-                             [self moveToPoint:newCenter rotateAngle:rotateAngle];
-                         } completion:NULL];
+//        [UIView animateWithDuration:animationDuration 
+//                              delay:0 
+//                            options:UIViewAnimationOptionAllowUserInteraction 
+//                         animations:^{
+//                             [self moveToPoint:newCenter rotateAngle:rotateAngle];
+//                         } completion:NULL];
     } 
     
     else {
@@ -439,23 +439,26 @@ static SVProgressHUD *sharedView = nil;
     if(self.showNetworkIndicator)
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
-	[UIView animateWithDuration:0.15
-						  delay:0
-						options:UIViewAnimationCurveEaseIn | UIViewAnimationOptionAllowUserInteraction
-					 animations:^{	
-						 sharedView.hudView.transform = CGAffineTransformScale(sharedView.hudView.transform, 0.8, 0.8);
-						 sharedView.alpha = 0;
-					 }
-					 completion:^(BOOL finished){ 
-                         if(sharedView.alpha == 0) {
-                             [[NSNotificationCenter defaultCenter] removeObserver:sharedView];
-                             [sharedView.previousKeyWindow makeKeyWindow];
-                             [sharedView release], sharedView = nil;
-                             
-                             // uncomment to make sure UIWindow is gone from app.windows
-                             //NSLog(@"%@", [UIApplication sharedApplication].windows);
-                         }
-                     }];
+    [[NSNotificationCenter defaultCenter] removeObserver:sharedView];
+    [sharedView.previousKeyWindow makeKeyWindow];
+    [sharedView release], sharedView = nil;
+//	[UIView animateWithDuration:0.15
+//						  delay:0
+//						options:UIViewAnimationCurveEaseIn | UIViewAnimationOptionAllowUserInteraction
+//					 animations:^{	
+//						 sharedView.hudView.transform = CGAffineTransformScale(sharedView.hudView.transform, 0.8, 0.8);
+//						 sharedView.alpha = 0;
+//					 }
+//					 completion:^(BOOL finished){ 
+//                         if(sharedView.alpha == 0) {
+//                             [[NSNotificationCenter defaultCenter] removeObserver:sharedView];
+//                             [sharedView.previousKeyWindow makeKeyWindow];
+//                             [sharedView release], sharedView = nil;
+//                             
+//                             // uncomment to make sure UIWindow is gone from app.windows
+//                             //NSLog(@"%@", [UIApplication sharedApplication].windows);
+//                         }
+//                     }];
 }
 
 #pragma mark - Getters
