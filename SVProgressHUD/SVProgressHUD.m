@@ -266,13 +266,12 @@ static SVProgressHUD *sharedView = nil;
     
     if(![self isKeyWindow]) {
         
-        [[UIApplication sharedApplication].windows enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            UIWindow *window = (UIWindow*)obj;
+        for (UIWindow *window in [UIApplication sharedApplication].windows) {
             if(window.windowLevel == UIWindowLevelNormal && ![[window class] isEqual:[SVProgressHUD class]]) {
                 self.previousKeyWindow = window;
-                *stop = YES;
+                break;
             }
-        }];
+        }
          
         [self makeKeyAndVisible];
     }
